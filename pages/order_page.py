@@ -1,7 +1,5 @@
 import allure
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions
-from selenium.webdriver.support.wait import WebDriverWait
 from pages.base_page import BasePage
 
 
@@ -32,76 +30,76 @@ class OrderPage(BasePage):
 
     @allure.step('Ждем загрузки формы заказа')
     def wait_order_page_loaded(self):
-        WebDriverWait(self.driver, 3).until(expected_conditions.visibility_of_element_located(self._ORDER_FORM))
+        self.wait_for_element_visible(self._ORDER_FORM)
 
     @allure.step('Заполняем Имя')
     def set_name(self, name):
-        self.driver.find_element(*self._NAME_FIELD).send_keys(name)
+        self.enter_text(self._NAME_FIELD, name)
 
     @allure.step('Заполняем Фамилию')
     def set_surname(self, surname):
-        self.driver.find_element(*self._SURNAME_FIELD).send_keys(surname)
+        self.enter_text(self._SURNAME_FIELD, surname)
 
     @allure.step('Заполняем Адрес')
     def set_address(self, address):
-        self.driver.find_element(*self._ADDRESS_FIELD).send_keys(address)
+        self.enter_text(self._ADDRESS_FIELD, address)
 
     @allure.step('Выбираем станцию Метро')
     def select_metro(self, metro):
-        self.driver.find_element(*self._METRO_FIELD).click()
+        self.click_element(self._METRO_FIELD)
         _METRO_LIST_ITEM = [By.XPATH, f"//input[contains(@placeholder, 'Станция метро')]/../..//li[{metro}]"]
-        self.driver.find_element(*_METRO_LIST_ITEM).click()
+        self.click_element(self._METRO_LIST_ITEM)
 
     @allure.step('Заполняем Телефон')
     def set_phone(self, phone):
-        self.driver.find_element(*self._PHONE_FIELD).send_keys(phone)
+        self.enter_text(self._PHONE_FIELD, phone)
 
     @allure.step('Кликаем на кнопку "Далее"')
     def click_order_next_button(self):
-        self.driver.find_element(*self._ORDER_NEXT_BUTTON).click()
+        self.click_element(self._ORDER_NEXT_BUTTON)
 
     @allure.step('Ожидаем загрузку второй страницы заказа')
     def wait_second_page_order(self):
-        WebDriverWait(self.driver, 3).until(expected_conditions.visibility_of_element_located(self._ORDER_FORM_RENT_HEADER))
+        self.wait_for_element_visible(self._ORDER_FORM_RENT_HEADER)
 
     @allure.step('Заполняем Дату')
     def set_date(self, date):
-        self.driver.find_element(*self._DATE_FIELD).send_keys(date)
+        self.enter_text(self._DATE_FIELD, date)
 
     @allure.step('Закрываем календарь, чтобы не мешал заполнять следующие поля')
     def close_calendar(self):
-        self.driver.find_element(*self._ORDER_FORM_RENT_HEADER).click()
+        self.click_element(self._ORDER_FORM_RENT_HEADER)
 
     @allure.step('Выбираем Период аренды')
     def set_period(self, period):
-        self.driver.find_element(*self._PERIOD_FIELD).click()
+        self.click_element(self._PERIOD_FIELD)
         _PERIOD_ITEM = [By.XPATH, f"//div[contains(text(), 'Срок аренды')]/../..//div[@role='option'][{period}]"]
-        self.driver.find_element(*_PERIOD_ITEM).click()
+        self.click_element(self._PERIOD_ITEM)
 
     @allure.step('Выбираем Цвет')
     def set_color(self, color):
         if color == 'black':
-            self.driver.find_element(*self._BLACK_COLOR_FIELD).click()
+            self.click_element(self._BLACK_COLOR_FIELD)
         if color == 'grey':
-            self.driver.find_element(*self._GREY_COLOR_FIELD).click()
+            self.click_element(self._GREY_COLOR_FIELD)
 
     @allure.step('Заполняем Комментарий')
     def set_comment(self, comment):
-        self.driver.find_element(*self._COMMENT_FIELD).send_keys(comment)
+        self.enter_text(self._COMMENT_FIELD, comment)
 
     @allure.step('Кликаем на кнопку "Заказать"')
     def click_order_button(self):
-        self.driver.find_element(*self._ORDER_BUTTON).click()
+        self.click_element(self._ORDER_BUTTON)
 
     @allure.step('Кликаем на кнопку подтверждения заказа')
     def click_confirm_order_button(self):
-        WebDriverWait(self.driver, 3).until(expected_conditions.visibility_of_element_located(self._ORDER_CONFIRMATION_MODAL_HEADER))
-        self.driver.find_element(*self._CONFIRM_ORDER_BUTTON).click()
+        self.wait_for_element_visible(self._CONFIRM_ORDER_BUTTON)
+        self.click_element(self._CONFIRM_ORDER_BUTTON)
 
     @allure.step('Получаем заголовок финального диалогового окна')
     def get_modal_header(self):
-        WebDriverWait(self.driver, 3).until(expected_conditions.visibility_of_element_located(self._ORDER_CONFIRMED_MODAL_HEADER))
-        return self.driver.find_element(*self._ORDER_CONFIRMED_MODAL_HEADER).text
+        self.wait_for_element_visible(self._ORDER_CONFIRMED_MODAL_HEADER)
+        return self.find_element(self._ORDER_CONFIRMED_MODAL_HEADER).text
 
     @allure.step('Заполняем все поля формы и размещаем заказ ')
     def fill_order_form(self, name, surname, metro, address, phone, date, period, color, comment):
