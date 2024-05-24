@@ -24,8 +24,6 @@ class MainPage(BasePage):
 
     @allure.step('Кликаем на плашку вопроса')
     def click_question_tab(self, tab_number):
-        # Пришлось переопределить некоторые локаторы внутри функций, т. к. номер таба в XPATH зависит от параметра теста
-        # Если есть какой-то более правильный способ это сделать, то хотелось бы о нем узнать)
         question_locator = [By.XPATH, self._QUESTION_XPATH.format(tab_number)]
         self.wait_for_element_visible(question_locator)
         self.click_element(question_locator)

@@ -10,13 +10,13 @@ class OrderPage(BasePage):
     _SURNAME_FIELD = [By.XPATH, "//input[contains(@placeholder, 'Фамилия')]"]
     _ADDRESS_FIELD = [By.XPATH, "//input[contains(@placeholder, 'Адрес')]"]
     _METRO_FIELD = [By.XPATH, "//input[contains(@placeholder, 'Станция метро')]"]
-    _METRO_LIST_ITEM = [By.XPATH, "//input[contains(@placeholder, 'Станция метро')]/../..//li"]
+    _METRO_LIST_ITEM_XPATH = "//input[contains(@placeholder, 'Станция метро')]/../..//li[{0}]"
     _PHONE_FIELD = [By.XPATH, "//input[contains(@placeholder, 'Телефон')]"]
     _ORDER_NEXT_BUTTON = [By.XPATH, "//button[text()='Далее']"]
     _ORDER_FORM_RENT_HEADER = [By.XPATH, "//div[contains(@class,'Order_Header') and (text()='Про аренду')]"]
     _DATE_FIELD = [By.XPATH, "//input[contains(@placeholder, 'Когда привезти')]"]
     _PERIOD_FIELD = [By.XPATH, "//div[contains(text(), 'Срок аренды')]/.."]
-    _PERIOD_ITEM = [By.XPATH, "//div[contains(text(), 'Срок аренды')]/../..//div[@role='option']"]
+    _PERIOD_ITEM_XPATH = "//div[contains(text(), 'Срок аренды')]/../..//div[@role='option'][{0}]"
     _BLACK_COLOR_FIELD = [By.XPATH, "//label[contains(text(), 'чёрный жемчуг')]"]
     _GREY_COLOR_FIELD = [By.XPATH, "//label[contains(text(), 'серая безысходность')]"]
     _COMMENT_FIELD = [By.XPATH, "//input[contains(@placeholder, 'Комментарий')]"]
@@ -47,8 +47,8 @@ class OrderPage(BasePage):
     @allure.step('Выбираем станцию Метро')
     def select_metro(self, metro):
         self.click_element(self._METRO_FIELD)
-        _METRO_LIST_ITEM = [By.XPATH, f"//input[contains(@placeholder, 'Станция метро')]/../..//li[{metro}]"]
-        self.click_element(self._METRO_LIST_ITEM)
+        metro_list_item = [By.XPATH, self._METRO_LIST_ITEM_XPATH.format(metro)]
+        self.click_element(metro_list_item)
 
     @allure.step('Заполняем Телефон')
     def set_phone(self, phone):
@@ -73,8 +73,8 @@ class OrderPage(BasePage):
     @allure.step('Выбираем Период аренды')
     def set_period(self, period):
         self.click_element(self._PERIOD_FIELD)
-        _PERIOD_ITEM = [By.XPATH, f"//div[contains(text(), 'Срок аренды')]/../..//div[@role='option'][{period}]"]
-        self.click_element(self._PERIOD_ITEM)
+        period_item = [By.XPATH, self._PERIOD_ITEM_XPATH.format(period)]
+        self.click_element(period_item)
 
     @allure.step('Выбираем Цвет')
     def set_color(self, color):
