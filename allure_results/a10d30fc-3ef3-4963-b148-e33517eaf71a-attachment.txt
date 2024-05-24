@@ -1,0 +1,2 @@
+Элемент с локатором ['xpath', "//button[contains(@class,'App_CookieButton')]"] не найден спустя 1 секунд
+Не получилось кликнуть по элементу с локатором ['xpath', "//button[contains(@class,'App_CookieButton')]"]
